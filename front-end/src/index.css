@@ -1,22 +1,26 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Poppins';font-size: 12px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin-left: 2rem;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+.foundation {
+  margin: 5rem auto 0 auto;
+  /* margin-top: 2rem; */
+  /* border: 1px solid black; */
+  width: fit-content;
 }
 
-
 .title-form {
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
   margin-top: 2rem;
   margin-bottom: 1rem;
+  margin: 0.2rem;
 }
 
 .label-form {
@@ -26,18 +30,47 @@ code {
 
 .text-form {
   margin-top: 0.5rem;
+  width: 100%;
+  height: 2.5rem;
 }
 
 
 .btn-form {
   text-align: center;
-  display: block;
   margin-top: 2rem;
   background-color: #484848;
-  color: antiquewhite;
+  color: white;
+  height: 2.5rem;
+  width: 100%;
+  font-weight: bolder;
 }
 
-.drop-down-submissions {
+.success-message {
+  color: rgb(91, 206, 91);
+  text-align: center;
+  margin-top: 2rem;
+  background-color: #484848;
+  height: 2.5rem;
+  width: 100%;
+  font-weight: bolder;
+}
+
+.btn-green {
+  text-align: center;
+  margin-top: 2rem;
+  background-color: #36B1A7;
+  border: #36B1A7 solid 1px;
+  color: white;
+  height: 2.5rem;
+  width: 100%;
+  font-weight: bolder;
+}
+
+.no-display-dropbox {
+  display: none;
+}
+
+.display-dropbox {
   margin-top: 1rem;
   background-color: thistle;
 }
