@@ -23,7 +23,7 @@ The system is aimed to:
   *- p.s.1: the database used is MongoDB Atlas and its connections settings are on settings.js file.*  
   *- p.s.2: the nodemon.js file has the following variables.*  
     "DB" - which is the database path plus parameters  
-  *- p.s.3: environment is going to run under nodemon.*
+  *- p.s.3: the environment is set to run under nodemon.*
 
   **Contact:**  
   [Tony Kieling](tony.kieling@gmail.com)
