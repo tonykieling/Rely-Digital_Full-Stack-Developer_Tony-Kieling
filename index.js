@@ -5,7 +5,8 @@ const app         = express();
 const bodyParser  = require("body-parser");
 const mongoose    = require("mongoose");
 
-const dbSettings  = require("./settings.js");
+// local environment
+// const dbSettings  = require("./settings.js");
 
 const contactsRoutes = require("./api/routes/contact.js");
 
@@ -31,7 +32,8 @@ app.use((err, req, res, next) => {
 
 
 try {
-  mongoose.connect(dbSettings, {
+  // mongoose.connect(dbSettings, { // local environment
+  mongoose.connect(process.env.DB, { // this is a set to heroku
     useNewUrlParser: true,
     useUnifiedTopology: true });
 } catch (err) {

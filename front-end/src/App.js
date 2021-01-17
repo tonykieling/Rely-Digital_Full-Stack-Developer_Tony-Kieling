@@ -111,8 +111,8 @@ function App() {
       return;
     }
     
-    // const url = "/contact";
-    const url = "http://localhost:3333/contact";
+    const url = "/contact";
+    // const url = "http://localhost:3333/contact";  // local environment
     try {
       const getData = await axios.get( 
         url,
@@ -176,8 +176,8 @@ function App() {
     }
 
     // it sends data to the server so it can be recorded on db
-    // const url = "/contact";
-    const url = "http://localhost:3333/contact";
+    const url = "/contact";
+    // const url = "http://localhost:3333/contact";  //local environemnt
     const data = { name, email };
 
     try {
