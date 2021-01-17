@@ -129,7 +129,19 @@ function App() {
       else refName.current.focus();
       return;
     }
-    
+
+    // const url = "/invoice";
+    // try {
+    //   const record = await axios.post( 
+    //     url,
+    //     data,
+    //     {  
+    //       headers: { 
+    //         "Content-Type": "application/json"
+    //       }
+    //   });
+
+
     disableFormFunction(true);
     // it sends data to the server
     console.log("sending data to the server");
