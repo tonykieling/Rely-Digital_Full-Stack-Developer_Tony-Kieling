@@ -9,7 +9,6 @@ const Contact   = require("../models/contact.js");
 
 // function to get contacts
 const getContacts = async(req, res) => {
-  console.log("inside controller getcontacts");
   // do not need checking, it only queries the db
   try {
     const contacts = await Contact
@@ -32,7 +31,6 @@ const getContacts = async(req, res) => {
 // function to add a new contact
 const addContacts = async(req, res) => {
   const { name, email } = req.body;
-  console.log("received::", name, email);
 
   // it checks whether data is being received
   // *** FE does it, but here is a double checking

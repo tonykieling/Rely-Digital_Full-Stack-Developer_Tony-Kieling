@@ -40,12 +40,14 @@ function App() {
   } 
 
 
+
   // disable form controller
   const [disableFormController, setDisableForm] = useState(false);
 
   const disableFormFunction = (newState = false) => {
     setDisableForm(newState);
   }
+
 
 
   // Get Started Today button = buttonLabelGST
@@ -63,8 +65,6 @@ function App() {
         cssClass  : "success-message"
       });
       
-      clearDataForm();
-
     } else {
       //in case there is a fail, the message handling will differ
       setButtonLabel({
@@ -82,10 +82,14 @@ function App() {
         cssClass  : "btn-form"
       });
 
+      // it only clears the form when the data was recorded successfully
+      (flag === "OK") && clearDataForm();
+
       setDisableForm();
       refName.current.focus();
     }, delayChangeButtonLabel);
   };
+
 
 
   // Show Submissions button
@@ -101,7 +105,11 @@ function App() {
     changeButtonColor();
     showDropBox();
 
-    if (dropBoxClass === "display-dropbox") return;
+    // it returns to the original button state and focus on Name field
+    if (dropBoxClass === "display-dropbox") {
+      refName.current.focus();
+      return;
+    }
     
     // const url = "/contact";
     const url = "http://localhost:3333/contact";
@@ -116,11 +124,11 @@ function App() {
 
       showSubmissionsFunction(getData.data.content);
 
-      console.log("getData====>", getData);
     } catch(error) {
-      console.log("ERRORRR:", error);
+      console.log("### ERROR:", error);
     }
   };
+
 
 
   // drop-down box
@@ -133,22 +141,37 @@ function App() {
   }
 
 
+
   // it checks whether the data was typed
-  const validateForm = () => ((!name || !email) ? false : true);
+  const validateForm = () => {
+    // it validates whether name and email were typed
+    if (!name || !email) return "both";
+
+    // it checks email formatting
+    if (email.match("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")) return "OK";
+    
+    return "email";
+  }
+
 
 
   // it submits form data
   const submitData = async (event) => {
     event.preventDefault();
     
-    // it validates data
+    // it validates form data
     const validation = validateForm();
 
-    if (!validation) {
-      alert("Please, enter Name and Business Email.");
+    if (validation !== "OK") {
+      if (validation === "both") {
+        alert("Please, enter Name and Business Email.");
+        if (name) refEmail.current.focus();
+        else refName.current.focus();
+      } else if (validation === "email") {
+        alert("Email seems to be invalid");
+        refEmail.current.focus();
+      }
 
-      if (name) refEmail.current.focus();
-      else refName.current.focus();
       return;
     }
 
@@ -176,21 +199,22 @@ function App() {
       else changeButtonGSTLabel("NOK");
       
     } catch (error) {
-      console.log("error post", error);
+      console.log("### error post", error);
     }
   };
+
 
 
   // it handles show submissions
   const [showSubmissionsContent, setShowSubmissionsContent] = useState("");
 
   const showSubmissionsFunction = data => {
-    const result = data.map((e, i) => 
-      <li key = { i }>{e.name}, <span className = "underline">{e.email}</span></li>);
-      // <li key = { i }>{e.name}, <span style={{textDecorationLine: "underline"}}>{e.email}</span></li>);
+    const result = data.length
+      ? data.map((e, i) => 
+          <li key = { i }>{e.name}, <span className = "underline">{e.email}</span></li>)
+      : <li key = { 1 }><b>No entries right now</b></li>
 
     setShowSubmissionsContent(result);
-
   }
 
   return (
@@ -200,9 +224,10 @@ function App() {
       </div>
 
       <form>
-        <p className = "label-form">Name</p>
+        <p className = "label-form"> Name </p> 
         <input 
           autoFocus = { true }
+          id        = "name"
           className = "text-form" 
           type      = "text"
           name      = "name"
@@ -212,18 +237,18 @@ function App() {
           disabled  = { disableFormController }
         ></input>
 
-        <p className = "label-form" >Business Email</p>
+        <p className = "label-form"> Email </p>
         <input 
-          className = "text-form" 
-          type      = "text"
-          name      = "email"
-          value     = { email }
-          onChange  = { handleChangeData}
-          ref       = { refEmail }
-          disabled  = { disableFormController }
-          // pattern     = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          id          = "email"
+          className   = "text-form" 
+          type        = "email"
+          // placeholder = "name@domain.ca"
+          name        = "email"
+          value       = { email }
+          onChange    = { handleChangeData}
+          ref         = { refEmail }
+          disabled    = { disableFormController }
         ></input>
-
       </form>
 
 

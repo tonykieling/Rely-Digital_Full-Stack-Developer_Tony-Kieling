@@ -5,7 +5,7 @@ const app         = express();
 const bodyParser  = require("body-parser");
 const mongoose    = require("mongoose");
 
-const dbSettings      = require("./settings.js");
+const dbSettings  = require("./settings.js");
 
 const contactsRoutes = require("./api/routes/contact.js");
 
@@ -34,21 +34,22 @@ try {
   mongoose.connect(dbSettings, {
     useNewUrlParser: true,
     useUnifiedTopology: true });
-    console.log("YEAHHH")
 } catch (err) {
-  console.log("error on MongoDB connection");
+  console.log("### error on MongoDB connection");
   console.log(err.message);
 }
 
 
+// calls the route regarding contact, which allows add or get contacts
 app.use("/contact", contactsRoutes);
 
-app.use((req, res) => res.send({error: "something bad happened"}));
+// app.use((req, res) => res.send({error: "something bad happened"}));
 
 
-// // pass these routes to your front end
-// app.get('*', (req, res) => {
-//   return res.sendFile(path.join(__dirname, './public', 'index.html'))
-// });
+// it deliveres front-end files to the client/browser
+app.get('*', (req, res) => {
+  return res.sendFile(path.join(__dirname, './public', 'index.html'))
+});
+
 
 app.listen(PORT, () => console.log(`Server is running at ${PORT}`));
