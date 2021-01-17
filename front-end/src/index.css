@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: 'Poppins';font-size: 12px;
+  font-family: 'Poppins';font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin-left: 2rem;
@@ -9,8 +9,8 @@ body {
 
 .foundation {
   margin: 5rem auto 0 auto;
-  /* margin-top: 2rem; */
-  /* border: 1px solid black; */
+  margin-top: 2rem;
+  border: 1px solid black;
   width: fit-content;
 }
 
@@ -55,6 +55,17 @@ body {
   font-weight: bolder;
 }
 
+.fail-message {
+  color: red;
+  text-align: center;
+  margin-top: 2rem;
+  background-color: #484848;
+  height: 2.5rem;
+  width: 100%;
+  font-weight: bolder;
+}
+
+
 .btn-green {
   text-align: center;
   margin-top: 2rem;
@@ -72,5 +83,19 @@ body {
 
 .display-dropbox {
   margin-top: 1rem;
-  background-color: thistle;
+  border: 1px solid gray;
+}
+
+li {
+  list-style-type : none;
+  padding-left: 0.5rem;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+ul {
+  padding-left: 0;
+  margin-top: 0.5rem;
 }

@@ -9,6 +9,11 @@ const dbSettings      = require("./settings.js");
 
 const contactsRoutes = require("./api/routes/contact.js");
 
+// dev env
+const cors = require('cors');
+app.use(cors());
+
+
 // settings related to boy-parser, which allows extended urlencoder and enables to receive json format
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

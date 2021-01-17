@@ -20,7 +20,7 @@ const getContacts = async(req, res) => {
     return res.status(200).json({
       message : "success",
       length  : contacts.length,
-      data    : contacts
+      content : contacts
     });
 
   } catch(error) {
@@ -51,7 +51,7 @@ const addContacts = async(req, res) => {
 
     return res.status(200).json({
       message : "success",
-      data    : newContact
+      content : newContact
     });
 
   } catch(error) {

@@ -1,8 +1,12 @@
 import { useState, useRef } from "react";
 import './App.css';
+import axios from "axios";
 
-const delayChangeButtonLabel = 2000; // delay time to show the success message after sending data (in miliseconds)
 
+// delay time to show the success message after sending data (in miliseconds)
+const delayChangeButtonLabel = 2000; 
+
+// inital state for the form data
 const initialState = {
     name  : "",
     email : ""
@@ -10,13 +14,6 @@ const initialState = {
 
 
 function App() {
-  // formatting's tasks
-  // click button to add company = data submitted successfully or
-  // validate the input data
-  // click button to show submissions = show drop down menu formatted accordingly
-
-  // backend API
-  //setting database
 
   const refName   = useRef(null);
   const refEmail  = useRef(null);
@@ -58,12 +55,24 @@ function App() {
   });
 
   // it changes button label
-  const changeButtonGSTLabel = () => {
-    setButtonLabel({
-      ...buttonLabelGST,
-      message   : "Data submitted successfully!",
-      cssClass  : "success-message"
-    });
+  const changeButtonGSTLabel = flag => {
+    if (flag === "OK") {
+      setButtonLabel({
+        ...buttonLabelGST,
+        message   : "Data submitted successfully!",
+        cssClass  : "success-message"
+      });
+      
+      clearDataForm();
+
+    } else {
+      //in case there is a fail, the message handling will differ
+      setButtonLabel({
+        ...buttonLabelGST,
+        message   : "Something bad happened. Try again later!",
+        cssClass  : "fail-message"
+      });      
+    }
 
     setTimeout(() => {
       
@@ -72,10 +81,9 @@ function App() {
         message   : "Get Started Today",
         cssClass  : "btn-form"
       });
-      clearDataForm();
+
       setDisableForm();
       refName.current.focus();
-
     }, delayChangeButtonLabel);
   };
 
@@ -88,10 +96,30 @@ function App() {
     else setColor("btn-form");
   }
 
-  const onClickShowSubmissions = () => {
+  const onClickShowSubmissions = async() => {
     refBtnShowSubmissions.current.blur();
     changeButtonColor();
     showDropBox();
+
+    if (dropBoxClass === "display-dropbox") return;
+    
+    // const url = "/contact";
+    const url = "http://localhost:3333/contact";
+    try {
+      const getData = await axios.get( 
+        url,
+        {  
+          headers: { 
+            "Content-Type": "application/json"
+          }
+      });
+
+      showSubmissionsFunction(getData.data.content);
+
+      console.log("getData====>", getData);
+    } catch(error) {
+      console.log("ERRORRR:", error);
+    }
   };
 
 
@@ -106,51 +134,64 @@ function App() {
 
 
   // it checks whether the data was typed
-  const validateForm = () => {
-    // let result = {};
-    // if (!name) result.name = false;
-    // if (!email) result.email = false;
-
-    // return result;
-    return ((!name || !email) ? false : true);
-  }
+  const validateForm = () => ((!name || !email) ? false : true);
 
 
   // it submits form data
-  const submitData = event => {
+  const submitData = async (event) => {
     event.preventDefault();
     
     // it validates data
     const validation = validateForm();
-    // if (Object.keys(validation).length) return;
+
     if (!validation) {
       alert("Please, enter Name and Business Email.");
+
       if (name) refEmail.current.focus();
       else refName.current.focus();
       return;
     }
 
-    // const url = "/invoice";
-    // try {
-    //   const record = await axios.post( 
-    //     url,
-    //     data,
-    //     {  
-    //       headers: { 
-    //         "Content-Type": "application/json"
-    //       }
-    //   });
+    // it sends data to the server so it can be recorded on db
+    // const url = "/contact";
+    const url = "http://localhost:3333/contact";
+    const data = { name, email };
 
+    try {
+      const record = await axios.post( 
+        url,
+        data,
+        {  
+          headers: { 
+            "Content-Type": "application/json"
+          }
+      });
 
-    disableFormFunction(true);
-    // it sends data to the server
-    console.log("sending data to the server");
-
-    //after receiving success from axios:
-    // change button, disable form and after a while defined in delayChangeButtonLabel, clear the form and focus in Name again
-    changeButtonGSTLabel();
-
+      disableFormFunction(true);
+      
+      if (record.data.message)
+        changeButtonGSTLabel("OK");
+        //after receiving success from axios:
+        // change button, disable form and after a while defined in delayChangeButtonLabel, clear the form and focus in Name again
+      else changeButtonGSTLabel("NOK");
+      
+    } catch (error) {
+      console.log("error post", error);
+    }
   };
+
+
+  // it handles show submissions
+  const [showSubmissionsContent, setShowSubmissionsContent] = useState("");
+
+  const showSubmissionsFunction = data => {
+    const result = data.map((e, i) => 
+      <li key = { i }>{e.name}, <span className = "underline">{e.email}</span></li>);
+      // <li key = { i }>{e.name}, <span style={{textDecorationLine: "underline"}}>{e.email}</span></li>);
+
+    setShowSubmissionsContent(result);
+
+  }
 
   return (
     <div className = "foundation">
@@ -161,7 +202,7 @@ function App() {
       <form>
         <p className = "label-form">Name</p>
         <input 
-          autoFocus
+          autoFocus = { true }
           className = "text-form" 
           type      = "text"
           name      = "name"
@@ -180,6 +221,7 @@ function App() {
           onChange  = { handleChangeData}
           ref       = { refEmail }
           disabled  = { disableFormController }
+          // pattern     = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
         ></input>
 
       </form>
@@ -211,10 +253,7 @@ function App() {
       <div 
         className = { dropBoxClass }
       >
-        <ul>
-          <li>1st item test </li>
-          <li>2nd item test</li>
-        </ul>
+        <ul>{ showSubmissionsContent } </ul>
       </div>
     </div>
   );
