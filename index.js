@@ -36,6 +36,7 @@ try {
   mongoose.connect(process.env.DB, { // this is a set to heroku
     useNewUrlParser: true,
     useUnifiedTopology: true });
+  console.log("DB connection OK!");
 } catch (err) {
   console.log("### error on MongoDB connection");
   console.log(err.message);
@@ -44,8 +45,6 @@ try {
 
 // calls the route regarding contact, which allows add or get contacts
 app.use("/contact", contactsRoutes);
-
-// app.use((req, res) => res.send({error: "something bad happened"}));
 
 
 // it deliveres front-end files to the client/browser
