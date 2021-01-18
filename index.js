@@ -4,15 +4,16 @@ const path        = require('path');
 const app         = express();
 const bodyParser  = require("body-parser");
 const mongoose    = require("mongoose");
+require('dotenv').config();
 
-// local environment
-// const dbSettings  = require("./settings.js");
+
+// settings for local/dev environment
+// const cors = require('cors'); // when running in diff servers, dev env
+// app.use(cors());
 
 const contactsRoutes = require("./api/routes/contact.js");
 
-// dev env
-const cors = require('cors');
-app.use(cors());
+app.use(express.static('public'));
 
 
 // settings related to boy-parser, which allows extended urlencoder and enables to receive json format
@@ -32,11 +33,10 @@ app.use((err, req, res, next) => {
 
 
 try {
-  // mongoose.connect(dbSettings, { // local environment
-  mongoose.connect(process.env.DB, { // this is a set to heroku
+  mongoose.connect(process.env.DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true });
-  console.log("DB connection OK!");
+    
 } catch (err) {
   console.log("### error on MongoDB connection");
   console.log(err.message);

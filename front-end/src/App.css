@@ -57,7 +57,7 @@ body {
 }
 
 .fail-message {
-  color: red;
+  color: crimson;
   text-align: center;
   margin-top: 2rem;
   background-color: #484848;

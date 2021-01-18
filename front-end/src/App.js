@@ -112,7 +112,6 @@ function App() {
     }
     
     const url = "/contact";
-    // const url = "http://localhost:3333/contact";  // local environment
     try {
       const getData = await axios.get( 
         url,
@@ -148,7 +147,7 @@ function App() {
     if (!name || !email) return "both";
 
     // it checks email formatting
-    if (email.match("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")) return "OK";
+    if (email.match("[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$")) return "OK";
     
     return "email";
   }
@@ -177,7 +176,6 @@ function App() {
 
     // it sends data to the server so it can be recorded on db
     const url = "/contact";
-    // const url = "http://localhost:3333/contact";  //local environemnt
     const data = { name, email };
 
     try {

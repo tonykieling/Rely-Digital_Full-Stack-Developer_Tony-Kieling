@@ -36,6 +36,10 @@ const addContacts = async(req, res) => {
   // *** FE does it, but here is a double checking
   if (!name || !email) return res.status(400).json({ error: "data missing" });
 
+
+  // error on purpose in order to simulate an error when trying to record a new document
+  // return res.json({error: "message for error"});
+
   //go to record into database
   try {
 
