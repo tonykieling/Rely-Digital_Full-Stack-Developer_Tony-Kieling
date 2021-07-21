@@ -1,0 +1,11 @@
+Testing deploy with Vercel.
+
+After some time, I realized the issues was at vercel.json / builds / src.
+Refer to vercel.json file of this project to check the correct way.
+
+
+Also, it is possible to test Vercel env without deploying, just use "# vercel dev".
+The deployment is straight forward. After importing from github e settings DNS, each time a push is performed, the system will be updated.
+***Need to heck it, because sometimes it will be unecessary or diseked.
+
+reached at https://tk1.tkwebdev.ca
