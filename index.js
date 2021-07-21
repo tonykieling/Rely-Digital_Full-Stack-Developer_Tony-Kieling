@@ -8,8 +8,8 @@ require('dotenv').config();
 
 
 // settings for local/dev environment
-// const cors = require('cors'); // when running in diff servers, dev env
-// app.use(cors());
+const cors = require('cors'); // when running in diff servers, dev env
+app.use(cors());
 
 const contactsRoutes = require("./api/routes/contact.js");
 
@@ -37,7 +37,6 @@ try {
     useNewUrlParser: true,
     useUnifiedTopology: true });
 
-  console.log("=", process.env.DB);
     
 } catch (err) {
   console.log("### error on MongoDB connection");
@@ -51,6 +50,7 @@ app.use("/contact", contactsRoutes);
 
 // it deliveres front-end files to the client/browser
 app.get('*', (req, res) => {
+  // app.use(express.static('public'));
   return res.sendFile(path.join(__dirname, './public', 'index.html'))
 });
 

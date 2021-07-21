@@ -1,0 +1,23 @@
+- deleted Procfile
+
+- changed vercel.json
+    "src":"/.*",
+    "dest":"index.js"
+
+- changed index.js
+    app.get('*', (req, res) => {
+      app.use(express.static('public'));
+      return res.sendFile(path.join(__dirname, './public', 'index.html'))
+    });
+  = had to return to original where app.use... is located at the begining of the file
+
+- changed FE package.json
+    no "proxy": "http://localhost:3334"
+
+- index.js enabled cors
+
+- rebuilded node_modules to both be and fe
+    fe is getting issues, but eh fe file is already done - I'd like to rebuild it, but it did not work for now
+- publish fe again - not possible due to above reason
+
+- testing on vercel dev is doing good
