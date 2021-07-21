@@ -1,5 +1,5 @@
 const express     = require("express");
-const PORT        = process.env.PORT || 3333;
+const PORT        = process.env.PORT || 3334;
 const path        = require('path');
 const app         = express();
 const bodyParser  = require("body-parser");
@@ -36,6 +36,8 @@ try {
   mongoose.connect(process.env.DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true });
+
+  console.log("=", process.env.DB);
     
 } catch (err) {
   console.log("### error on MongoDB connection");
