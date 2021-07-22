@@ -1,36 +1,10 @@
 const mongoose  = require("mongoose");
 const Contact   = require("../models/contact.js");
 
-/**
- * 
- * the functions below are available for the front-end either: record a new contact or get contact's list
- * 
-*/
-
-// function to get contacts
-const getContacts = async(req, res) => {
-  // do not need checking, it only queries the db
-  try {
-    const contacts = await Contact
-      .find();
-
-    if (!contacts) return res.status(200).json({ message: "db is empty" });
-
-    return res.status(200).json({
-      message : "success",
-      length  : contacts.length,
-      content : contacts
-    });
-
-  } catch(error) {
-    return res.status(400).json({ error: "something bad when getting data. :/"});
-  }
-};
-
-
 // function to add a new contact
-const addContacts = async(req, res) => {
+module.exports = async(req, res) => {
   const { name, email } = req.body;
+  console.log("=> adding:", name, email);
 
   // it checks whether data is being received
   // *** FE does it, but here is a double checking
@@ -39,6 +13,19 @@ const addContacts = async(req, res) => {
 
   // error on purpose in order to simulate an error when trying to record a new document
   // return res.json({error: "message for error"});
+
+  try {
+    mongoose.connect(process.env.DB, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true })
+      .then(console.log("DB is okay"))
+      .catch("OW :/ something got wrong");
+  
+      
+  } catch (err) {
+    console.log("### error on MongoDB connection");
+    console.log(err.message);
+  }
 
   //go to record into database
   try {
@@ -59,11 +46,5 @@ const addContacts = async(req, res) => {
   } catch(error) {
     return res.status(400).json({ error: "something bad when recording. :/"});
   }
+
 };
-
-
-module.exports = {
-  getContacts,
-  addContacts
-};
-

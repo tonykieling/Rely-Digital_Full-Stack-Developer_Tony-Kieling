@@ -1,3 +1,4 @@
+### July21
 - deleted Procfile
 
 - changed vercel.json
@@ -21,3 +22,7 @@
 - publish fe again - not possible due to above reason
 
 - testing on vercel dev is doing good
+
+###July22
+vercel serverless routes beind handled according this project.
+it is working.

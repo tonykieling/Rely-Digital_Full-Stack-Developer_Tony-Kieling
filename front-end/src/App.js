@@ -111,7 +111,9 @@ function App() {
       return;
     }
     
-    const url = "/contact";
+    const url = `${window.location.origin}/api/contact`;
+    // const url = `/contact`;
+    console.log("trying to reach:", url);
     try {
       const getData = await axios.get( 
         url,
@@ -120,6 +122,8 @@ function App() {
             "Content-Type": "application/json"
           }
       });
+
+      console.log("result is:", getData);
 
       showSubmissionsFunction(getData.data.content);
 
@@ -175,8 +179,10 @@ function App() {
     }
 
     // it sends data to the server so it can be recorded on db
-    const url = "/contact";
+    const url = `${window.location.origin}/api/contact`;
     const data = { name, email };
+    console.log("trying to reach:", url);
+
 
     try {
       const record = await axios.post( 
@@ -187,6 +193,7 @@ function App() {
             "Content-Type": "application/json"
           }
       });
+      console.log("result is:", record);
 
       disableFormFunction(true);
       
