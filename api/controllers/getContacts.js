@@ -1,5 +1,4 @@
 const mongoose  = require("mongoose");
-
 const Contact   = require("../models/contact.js");
 
 /**
@@ -20,27 +19,32 @@ module.exports = async(req, res) => {
       .catch("OW :/ something got wrong");
   
       
+    // do not need checking anything, it only queries the db
+    try {
+      const contacts = await Contact
+        .find();
+  
+      if (!contacts) return res.status(200).json({ message: "db is empty" });
+  
+      return res.status(200).json({
+        message : "success",
+        length  : contacts.length,
+        content : contacts
+      });
+      
+    } catch(error) {
+      return res.status(400).json({ error: "something bad when getting data. :/"});
+    } finally {
+      console.log("closing connection");
+      mongoose.disconnect();
+    }
+
+      
   } catch (err) {
     console.log("### error on MongoDB connection");
     console.log(err.message);
   }
 
-  // do not need checking, it only queries the db
-  try {
-    const contacts = await Contact
-      .find();
-
-    if (!contacts) return res.status(200).json({ message: "db is empty" });
-
-    return res.status(200).json({
-      message : "success",
-      length  : contacts.length,
-      content : contacts
-    });
-
-  } catch(error) {
-    return res.status(400).json({ error: "something bad when getting data. :/"});
-  }
 
 };
 

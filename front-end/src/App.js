@@ -111,8 +111,7 @@ function App() {
       return;
     }
     
-    const url = `${window.location.origin}/api/contact`;
-    // const url = `/contact`;
+    const url = `${window.location.origin}/api/controllers/getContacts`;
     console.log("trying to reach:", url);
     try {
       const getData = await axios.get( 
@@ -179,7 +178,7 @@ function App() {
     }
 
     // it sends data to the server so it can be recorded on db
-    const url = `${window.location.origin}/api/contact`;
+    const url = `${window.location.origin}/api/controllers/addContact`;
     const data = { name, email };
     console.log("trying to reach:", url);
 

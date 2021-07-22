@@ -21,30 +21,31 @@ module.exports = async(req, res) => {
       .then(console.log("DB is okay"))
       .catch("OW :/ something got wrong");
   
+    //go to record into database
+    try {
+  
+      const newContact = new Contact({
+        _id: new mongoose.Types.ObjectId(),
+        name,
+        email
+      });
+  
+      await newContact.save();
+  
+      return res.status(200).json({
+        message : "success",
+        content : newContact
+      });
+  
+    } catch(error) {
+      return res.status(400).json({ error: "something bad when recording. :/"});
+    }
       
   } catch (err) {
     console.log("### error on MongoDB connection");
     console.log(err.message);
+  } finally {
+    console.log("closing db connection");
+    mongoose.disconnect();
   }
-
-  //go to record into database
-  try {
-
-    const newContact = new Contact({
-      _id: new mongoose.Types.ObjectId(),
-      name,
-      email
-    });
-
-    await newContact.save();
-
-    return res.status(200).json({
-      message : "success",
-      content : newContact
-    });
-
-  } catch(error) {
-    return res.status(400).json({ error: "something bad when recording. :/"});
-  }
-
 };

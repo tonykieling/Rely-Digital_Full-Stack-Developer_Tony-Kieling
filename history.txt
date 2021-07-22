@@ -26,3 +26,7 @@
 ###July22
 vercel serverless routes beind handled according this project.
 it is working.
+
+Afterwards, the serverless routes were refactored for the current ones:
+/api/controllers/<name-of-a-funcion>.js
+The client will query "/api/controllers/getContacts", in case of getContacts.js function and file.
